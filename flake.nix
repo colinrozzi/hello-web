@@ -39,6 +39,12 @@
             (pkgs.lib.hasSuffix ".rs" path) ||
             (pkgs.lib.hasSuffix ".toml" path) ||
             (pkgs.lib.hasSuffix ".lock" path) ||
+            # Baked content: whitelist every suffix you include_str!/include_bytes!.
+            # crane STRIPS anything not listed here from the build sandbox, so an
+            # un-listed asset fails at build with "No such file or directory".
+            # .html is included so the README's include_str! advice works as-is;
+            # add .css/.png/.svg/etc. here as you bake them.
+            (pkgs.lib.hasSuffix ".html" path) ||
             (type == "directory");
         };
 

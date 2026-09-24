@@ -47,6 +47,10 @@ You should get the placeholder `hello from Theater` page.
   splitting the request line and matching on the path.
 - **Baked content** (like a real site): generate `.html` at build time and pull
   it in with `include_str!` — add a small build step and include the outputs.
+  **Whitelist the asset's suffix in `flake.nix`'s source filter** — crane strips
+  any file whose suffix isn't listed from the build sandbox, so an un-listed
+  asset fails with "No such file or directory". `.html` is already whitelisted;
+  add `.css` / `.png` / `.svg` / etc. as you bake them.
 - **Port / TLS**: the acceptor reads `listen` / `handler` / `tls` from its
   manifest `initial_state`. For public TLS, add `server_tls` (cert/key) to the
   acceptor's `tcp` handler in a prod manifest and pass `tls=on`.
